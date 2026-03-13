@@ -3,6 +3,6 @@
 
 
 
-void drawTypingScreen(Font font);
+void drawTypingScreen(Font font,char *input,char *target,int *inputLength);
 
 #endif

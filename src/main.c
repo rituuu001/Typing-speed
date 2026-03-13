@@ -19,6 +19,9 @@ int main()
     Font font1=LoadFontEx("../assets/Cinzel-Bold.ttf",60, 0, 0);
     Font font2=LoadFontEx("../assets/RobotoMono-Regular.ttf",60, 0, 0);
     Texture2D logo= LoadTexture("../assets/logo.png");
+    char input[200] = "";
+    char* target = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
+    int inputLength = 0;
     
      while (!WindowShouldClose()) {
         BeginDrawing();
@@ -34,7 +37,7 @@ int main()
         DrawTextEx(font1, "WPM:55", (Vector2){815,75},45,-1, LIGHTGRAY);
         DrawTextEx(font1, "ACC:99", (Vector2){1015,75},45,-1, LIGHTGRAY);
         DrawTextEx(font1, "TIME:25", (Vector2){1215,75},45,-1, LIGHTGRAY);
-        drawTypingScreen(font2);
+        drawTypingScreen(font2, input, target, &inputLength);
        EndDrawing();
 }
     UnloadFont(font1);

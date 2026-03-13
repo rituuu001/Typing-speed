@@ -5,11 +5,8 @@
 #include <string.h>
 #include<stdio.h>
 
-void drawTypingScreen(Font font)
+void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
 {
-    char* target = "the quick brown fox jumps over the lazy dog";
-    char* input = "the quick brow";
-    int inputLength = 14;
     float StartX=20;
     float StartY=200;
     float x=StartX,y=StartY;
@@ -19,6 +16,7 @@ void drawTypingScreen(Font font)
   //handles the multiline display in screen
     for(int i=0;target[i]!='\0';i++)
     { char letter[2] = {target[i], '\0'};
+    
       DrawTextEx(font,letter,(Vector2){x,y},60,3,LIGHT);
       x+=charSize.x;
       if (x>maxX)
@@ -27,9 +25,23 @@ void drawTypingScreen(Font font)
         y+=charSize.y+10;
       }}
       x=StartX;y=StartY;
+
+  int key=GetCharPressed();
+   if (key>=32 && key<=126 && *inputLength<(int)strlen(target))
+   {
+    input[*inputLength]=key;
+    (*inputLength) ++;
+    input[*inputLength]='\0';
+   }
+   if (IsKeyPressed(KEY_BACKSPACE) && *inputLength>0)
+   {
+    (*inputLength)--;
+    input[*inputLength]='\0';
+   }
+      //if input is incorrect displays it in red colour else in white
       for(int i=0;target[i]!='\0';i++)
     { char letter[2] = {target[i], '\0'};
-      if (i<inputLength)
+      if (i<*inputLength)
       {
         colour=(input[i]==target[i])?WHITE:WRONG_COLOR;
         DrawTextEx(font,letter,(Vector2){x,y},60,3,colour);
@@ -41,5 +53,6 @@ void drawTypingScreen(Font font)
         y+=charSize.y+10;
       }
       }
+    
     }
 
