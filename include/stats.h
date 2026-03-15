@@ -13,5 +13,7 @@ typedef struct{
 
 float calculateWpm(int correctChars, float timeTaken);
 float calculateAccuracy(int correctChars, int totalChars);
+void  updateStats(GameStats *s, char expected, char typed);
+void  resetStats(GameStats *s);
 
 #endif
