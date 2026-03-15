@@ -7,6 +7,8 @@
 #define BG     (Color){26, 32, 44, 255}
 #define LIGHT  (Color){180, 200, 200, 60}
 #define WRONG_COLOR   (Color){255, 80, 80, 255}   // red for wrong
+#define MODE_SENTENCE  1
+#define MODE_PARAGRAPH 2
 typedef enum
 {
     SCREEN_LOAD,

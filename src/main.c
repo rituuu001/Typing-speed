@@ -5,13 +5,12 @@
 #include<time.h>
 #include"../include/typing.h"
 #include"../include/common.h"
+#include "../include/stats.h"
 Rectangle WPMBOX={800,60,150,75};
 Rectangle ACCBOX={1000,60,150,75};
 Rectangle TIMERBOX={1200,60,150,75};
-Rectangle logoBox = {534, 200, 112, 90};
+Rectangle logoBox = {534, 200, 112, 90};   
 
-
-   
 int main()
  { 
     srand(time(NULL));
@@ -23,9 +22,12 @@ int main()
     Texture2D logo= LoadTexture("../assets/logo.png");
     
     char input[200] = "";
-    char* target = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
-    int inputLength = 0;
+    char target[] = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
+    int inputLength=0;
     int framecount=0;
+    static float timer=30.0f;
+    GameStats stats;
+    resetStats(&stats);
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
      SetTargetFPS(60);
      while (!WindowShouldClose()) {
@@ -64,7 +66,9 @@ int main()
             break;
 
             case SCREEN_MODE:
+            {resetStats(&stats);
             CURRENT_SCREEN=SCREEN_TYPING;
+            }
             break;
 
             case SCREEN_TYPING:
@@ -77,11 +81,19 @@ int main()
             DrawRectangleRounded(ACCBOX, 0.5f, 64, COLOR2);
             DrawRectangleRoundedLinesEx(TIMERBOX, 0.5f, 64,2.0f,COLOR1);
             DrawRectangleRounded(TIMERBOX, 0.5f, 64, COLOR2);
-            DrawTextEx(font1, "WPM:55", (Vector2){815,75},45,-1, LIGHTGRAY);
-            DrawTextEx(font1, "ACC:99", (Vector2){1015,75},45,-1, LIGHTGRAY);
-            DrawTextEx(font1, "TIME:25", (Vector2){1215,75},45,-1, LIGHTGRAY);
+            handleTypingInput(input,&inputLength,target,&stats);
+            if (inputLength>0 && inputLength<=(int)strlen(target))
+            {timer-=GetFrameTime();}
+            float timetaken=30.0f-timer;
+            float wpm=calculateWpm(stats.correctChars,timetaken);
+            float acc=calculateAccuracy(stats.correctChars, stats.totalChars);
+            DrawTextEx(font1, TextFormat("WPM:%d",(int)wpm), (Vector2){815,75},45,-1, LIGHTGRAY);
+            DrawTextEx(font1,TextFormat("ACC:%d",(int)acc), (Vector2){1015,75},45,-1, LIGHTGRAY);
+            DrawTextEx(font1,TextFormat("TIME:%d",(int)timer), (Vector2){1215,75},45,-1, LIGHTGRAY);
             drawTypingScreen(font2, input, target, &inputLength);
-            }
+
+            if (isgameover(&inputLength,target,timer))
+            CURRENT_SCREEN=SCREEN_GAMEOVER;}
             break;
 
             case SCREEN_GAMEOVER:
