@@ -66,9 +66,9 @@ int main()
             break;
 
             case SCREEN_MODE:
-            {resetStats(&stats);
-            CURRENT_SCREEN=SCREEN_TYPING;
-            }
+            {
+            resetStats(&stats);
+            DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2, &mode);
             break;
 
             case SCREEN_TYPING:
@@ -97,10 +97,11 @@ int main()
             break;
 
             case SCREEN_GAMEOVER:
-
+            DrawGameOverScreen(&CURRENT_SCREEN, font1, font2, &stats);
             break;
 
             case SCREEN_LEADERBOARD:
+            DrawLeaderboardScreen(&CURRENT_SCREEN, font1, font2);
             break;
 
         }

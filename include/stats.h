@@ -1,5 +1,7 @@
 #ifndef STATS_H
 #define STATS_H
+#include<raylib.h>
+#include"common.h"
 
 typedef struct{
     int correctChars;      
@@ -15,5 +17,9 @@ float calculateWpm(int correctChars, float timeTaken);
 float calculateAccuracy(int correctChars, int totalChars);
 void  updateStats(GameStats *s, char expected, char typed);
 void  resetStats(GameStats *s);
+
+void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2, int *mode);
+void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameStats *stats);
+void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2);
 
 #endif
