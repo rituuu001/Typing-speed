@@ -26,6 +26,7 @@ int main()
     int inputLength=0;
     int framecount=0;
     static float timer=30.0f;
+    int mode = MODE_SENTENCE;
     GameStats stats;
     resetStats(&stats);
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
@@ -70,7 +71,7 @@ int main()
             resetStats(&stats);
             DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2, &mode);
             break;
-
+            }
             case SCREEN_TYPING:
             {
             DrawTextureEx(logo, (Vector2){20, 22}, 0.0f, 0.1f, WHITE);
@@ -91,9 +92,16 @@ int main()
             DrawTextEx(font1,TextFormat("ACC:%d",(int)acc), (Vector2){1015,75},45,-1, LIGHTGRAY);
             DrawTextEx(font1,TextFormat("TIME:%d",(int)timer), (Vector2){1215,75},45,-1, LIGHTGRAY);
             drawTypingScreen(font2, input, target, &inputLength);
+            
 
-            if (isgameover(&inputLength,target,timer))
-            CURRENT_SCREEN=SCREEN_GAMEOVER;}
+            if (isgameover(&inputLength, target, timer)) 
+            {
+                float timetaken = 30.0f - timer;
+                stats.wpm = calculateWpm(stats.correctChars, timetaken);
+                stats.accuracy = calculateAccuracy(stats.correctChars, stats.totalChars);
+                CURRENT_SCREEN = SCREEN_GAMEOVER;
+            }
+            }
             break;
 
             case SCREEN_GAMEOVER:
