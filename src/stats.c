@@ -42,19 +42,19 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2, int
     
     // Title
     DrawTextEx(font1, "SELECT MODE", (Vector2){480, 250}, 80, -2, LIGHTGRAY);
-    DrawTextEx(font2, "choose your typing mode", (Vector2){520, 360}, 35, 2, LIGHT);
+    DrawTextEx(font2, "choose your typing mode", (Vector2){490, 360}, 35, 2, LIGHT);
 
     // Sentence button
     Rectangle sentenceBtn = {350, 450, 280, 90};
     DrawRectangleRounded(sentenceBtn, 0.5f, 64, COLOR2);
     DrawRectangleRoundedLinesEx(sentenceBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "SENTENCE", (Vector2){385, 478}, 38, 2, COLOR1);
+    DrawTextEx(font2, "SENTENCE", (Vector2){410, 478}, 38, 2, COLOR1);
 
     // Paragraph button
-    Rectangle paragraphBtn = {810, 450, 280, 90};
+    Rectangle paragraphBtn = {800, 450, 280, 90};
     DrawRectangleRounded(paragraphBtn, 0.5f, 64, COLOR2);
     DrawRectangleRoundedLinesEx(paragraphBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "PARAGRAPH", (Vector2){835, 478}, 38, 2, COLOR1);
+    DrawTextEx(font2, "PARAGRAPH", (Vector2){850, 478}, 38, 2, COLOR1);
 
     // Check clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -105,10 +105,11 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
         Vector2 mouse = GetMousePosition();
 
         if (CheckCollisionPointRec(mouse, retryBtn)) {
-            *currentScreen = SCREEN_MODE;
+            
+            *currentScreen = SCREEN_TYPING;
         }
         if (CheckCollisionPointRec(mouse, menuBtn)) {
-            *currentScreen = SCREEN_LOAD;
+            *currentScreen = SCREEN_MODE;
         }
         if (CheckCollisionPointRec(mouse, lbBtn)) {
             *currentScreen = SCREEN_LEADERBOARD;
@@ -144,7 +145,7 @@ void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
         Vector2 mouse = GetMousePosition();
 
         if (CheckCollisionPointRec(mouse, backBtn)) {
-            *currentScreen = SCREEN_LOAD;
+            *currentScreen = SCREEN_MODE;
         }
     }
 }

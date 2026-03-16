@@ -10,6 +10,13 @@ Rectangle WPMBOX={800,60,150,75};
 Rectangle ACCBOX={1000,60,150,75};
 Rectangle TIMERBOX={1200,60,150,75};
 Rectangle logoBox = {534, 200, 112, 90};   
+void resetGame(char *input, int *inputLength, float *timer, GameStats *stats)
+{
+    input[0]     = '\0';
+    *inputLength = 0;
+    *timer       = 30.0f;
+    resetStats(stats);  
+}
 
 int main()
  { 
@@ -25,13 +32,15 @@ int main()
     char target[] = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
     int inputLength=0;
     int framecount=0;
-    static float timer=30.0f;
+    float timer=30.0f;
     int mode = MODE_SENTENCE;
-    GameStats stats;
-    resetStats(&stats);
+    GameStats stats={0};
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
+    GAMESCREEN PREVIOUS_SCREEN=SCREEN_LOAD;
      SetTargetFPS(60);
      while (!WindowShouldClose()) {
+        int screenChanged = (CURRENT_SCREEN != PREVIOUS_SCREEN);
+        PREVIOUS_SCREEN = CURRENT_SCREEN;
         BeginDrawing();
         ClearBackground(BG);
         switch(CURRENT_SCREEN)
@@ -63,17 +72,21 @@ int main()
             int barWidth = (int)(1440 * progress);
             DrawRectangle(0, 896, barWidth, 4, COLOR1);
             if(framecount>600 || GetKeyPressed())
-            CURRENT_SCREEN=SCREEN_MODE;}
+            CURRENT_SCREEN=SCREEN_MODE;
+            }
             break;
 
             case SCREEN_MODE:
             {
-            resetStats(&stats);
+              if (screenChanged)                              // ← reset once on entry
+                    resetGame(input, &inputLength, &timer, &stats);
             DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2, &mode);
+            
             break;
             }
             case SCREEN_TYPING:
-            {
+            {if (screenChanged)                              // ← reset once on entry
+                    resetGame(input, &inputLength, &timer, &stats);
             DrawTextureEx(logo, (Vector2){20, 22}, 0.0f, 0.1f, WHITE);
             DrawTextEx(font2, "typingSpeed", (Vector2){65, 16}, 50, -2,LIGHTGRAY);
             DrawRectangleRoundedLinesEx(WPMBOX, 0.5f, 64,2.0f,COLOR1);
@@ -83,7 +96,7 @@ int main()
             DrawRectangleRoundedLinesEx(TIMERBOX, 0.5f, 64,2.0f,COLOR1);
             DrawRectangleRounded(TIMERBOX, 0.5f, 64, COLOR2);
             handleTypingInput(input,&inputLength,target,&stats);
-            if (inputLength>0 && inputLength<=(int)strlen(target))
+            if (inputLength>0)
             {timer-=GetFrameTime();}
             float timetaken=30.0f-timer;
             float wpm=calculateWpm(stats.correctChars,timetaken);
@@ -100,16 +113,19 @@ int main()
                 stats.wpm = calculateWpm(stats.correctChars, timetaken);
                 stats.accuracy = calculateAccuracy(stats.correctChars, stats.totalChars);
                 CURRENT_SCREEN = SCREEN_GAMEOVER;
+                
             }
             }
             break;
 
             case SCREEN_GAMEOVER:
-            DrawGameOverScreen(&CURRENT_SCREEN, font1, font2, &stats);
+            {DrawGameOverScreen(&CURRENT_SCREEN, font1, font2, &stats);
+                  }
             break;
 
             case SCREEN_LEADERBOARD:
-            DrawLeaderboardScreen(&CURRENT_SCREEN, font1, font2);
+            {DrawLeaderboardScreen(&CURRENT_SCREEN, font1, font2);
+                }
             break;
 
         }

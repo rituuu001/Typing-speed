@@ -9,7 +9,7 @@
 void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
 {
     float StartX=20;
-    float StartY=200;
+    float StartY=300;
     float x=StartX,y=StartY;
     float maxX=1380;
     Vector2 charSize= MeasureTextEx(font,"a",60,3);
@@ -93,4 +93,3 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     return 0;
   }
  
-

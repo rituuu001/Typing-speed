@@ -19,4 +19,3 @@ typedef enum
 }GAMESCREEN;
 #endif
 
-// rest of your structs...
