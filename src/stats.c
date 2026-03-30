@@ -35,38 +35,61 @@ void resetStats(GameStats *s) {
     s->timeTaken      = 0.0f;
     s->wpm            = 0.0f;
     s->accuracy       = 0.0f;
-    s->mode[0]        = '\0';
+    s->smode[0]        = '\0';
+    s->timemode=  30.0f;
 }
 
-void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2, int *mode) {
+void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font font3, int *mode,float*timemode) {
     
     // Title
-    DrawTextEx(font1, "SELECT MODE", (Vector2){480, 250}, 80, -2, LIGHTGRAY);
-    DrawTextEx(font2, "choose your typing mode", (Vector2){490, 360}, 35, 2, LIGHT);
+    DrawTextEx(font2, "typingspeed", (Vector2){660, 100}, 50, -2, LIGHTGRAY);
+    Rectangle logoBox = {564, 85, 80, 80};
+     DrawRectangleRounded(logoBox, 0.3f, 8, COLOR1);
+    DrawTextEx(font3, "ts", (Vector2){585, 103}, 45, 2, BG);
+
+    // ── heading ─
+    DrawTextEx(font2, "CHOOSE YOUR MODE", (Vector2){585, 210}, 35, 2, LIGHT);
 
     // Sentence button
-    Rectangle sentenceBtn = {350, 450, 280, 90};
-    DrawRectangleRounded(sentenceBtn, 0.5f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(sentenceBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "SENTENCE", (Vector2){410, 478}, 38, 2, COLOR1);
+    Rectangle sentenceBtn = {350, 350, 350, 280};
+    DrawRectangleRounded(sentenceBtn, 0.2f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(sentenceBtn, 0.2f, 64, 2.0f, COLOR1);
+    DrawTextEx(font3, "''", (Vector2){480, 378}, 80, 2, WHITE);
+    DrawTextEx(font1, "Sentence", (Vector2){450, 468}, 38, 2, WHITE);
+    DrawTextEx(font3, "short bursts | raw speed",(Vector2){370, 528}, 25, 2,LIGHT);
 
     // Paragraph button
-    Rectangle paragraphBtn = {800, 450, 280, 90};
-    DrawRectangleRounded(paragraphBtn, 0.5f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(paragraphBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "PARAGRAPH", (Vector2){850, 478}, 38, 2, COLOR1);
-
+    Rectangle paragraphBtn = {800, 350, 350,280};
+    DrawRectangleRounded(paragraphBtn, 0.2f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(paragraphBtn, 0.2f, 64, 2.0f, COLOR1);
+    DrawTextEx(font3, "&", (Vector2){950, 378}, 80, 2, WHITE);
+    DrawTextEx(font1, "Paragraph", (Vector2){890, 468}, 38, 2, WHITE);
+     DrawTextEx(font3, "full passage | endurance",(Vector2){820, 528}, 25, 2,LIGHT);
+    //time buttons
+    Rectangle timebtn1={500,700,100,60};
+    DrawRectangleRounded(timebtn1, 0.9f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(timebtn1, 0.9f, 64, 2.0f, COLOR1);
+    DrawTextEx(font1, "15s", (Vector2){525, 715}, 38, 2, WHITE);
+    Rectangle timebtn2={700,700,100,60};
+    DrawRectangleRounded(timebtn2, 0.9f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(timebtn2, 0.9f, 64, 2.0f, COLOR1);
+    DrawTextEx(font1, "30s", (Vector2){725, 715}, 38, 2, WHITE);
+    Rectangle timebtn3={900,700,100,60};
+    DrawRectangleRounded(timebtn3, 0.9f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(timebtn3, 0.9f, 64, 2.0f, COLOR1);
+    DrawTextEx(font1, "40s", (Vector2){925, 715}, 38, 2, WHITE);
+    DrawTextEx(font3, "TIME--", (Vector2){275, 715}, 38, 1, LIGHT);
     // Check clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
 
         if (CheckCollisionPointRec(mouse, sentenceBtn)) {
             *mode = MODE_SENTENCE;
-            *currentScreen = SCREEN_TYPING;
+            
         }
         if (CheckCollisionPointRec(mouse, paragraphBtn)) {
             *mode = MODE_PARAGRAPH;
-            *currentScreen = SCREEN_TYPING;
+            
         }
     }
 }

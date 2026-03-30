@@ -10,11 +10,11 @@ Rectangle WPMBOX={800,60,150,75};
 Rectangle ACCBOX={1000,60,150,75};
 Rectangle TIMERBOX={1200,60,150,75};
 Rectangle logoBox = {534, 200, 112, 90};   
-void resetGame(char *input, int *inputLength, float *timer, GameStats *stats)
+void resetGame(char *input, int *inputLength, float *timer, GameStats *stats,float *timemode)
 {
     input[0]     = '\0';
     *inputLength = 0;
-    *timer       = 30.0f;
+    timer=timemode;
     resetStats(stats);  
 }
 
@@ -33,6 +33,7 @@ int main()
     int inputLength=0;
     int framecount=0;
     float timer=30.0f;
+    float timemode=30.0f;
     int mode = MODE_SENTENCE;
     GameStats stats={0};
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
@@ -78,15 +79,15 @@ int main()
 
             case SCREEN_MODE:
             {
-              if (screenChanged)                              // ← reset once on entry
-                    resetGame(input, &inputLength, &timer, &stats);
-            DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2, &mode);
+              if (screenChanged)                              // reset once on entry
+                    resetGame(input, &inputLength, &timer, &stats,&timemode);
+            DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2,font3, &mode,&timemode);
             
             break;
             }
             case SCREEN_TYPING:
-            {if (screenChanged)                              // ← reset once on entry
-                    resetGame(input, &inputLength, &timer, &stats);
+            {if (screenChanged)                              // reset once on entry
+                    resetGame(input, &inputLength, &timer, &stats,&timemode);
             DrawTextureEx(logo, (Vector2){20, 22}, 0.0f, 0.1f, WHITE);
             DrawTextEx(font2, "typingSpeed", (Vector2){65, 16}, 50, -2,LIGHTGRAY);
             DrawRectangleRoundedLinesEx(WPMBOX, 0.5f, 64,2.0f,COLOR1);
@@ -98,7 +99,7 @@ int main()
             handleTypingInput(input,&inputLength,target,&stats);
             if (inputLength>0)
             {timer-=GetFrameTime();}
-            float timetaken=30.0f-timer;
+            float timetaken=timemode-timer;
             float wpm=calculateWpm(stats.correctChars,timetaken);
             float acc=calculateAccuracy(stats.correctChars, stats.totalChars);
             DrawTextEx(font1, TextFormat("WPM:%d",(int)wpm), (Vector2){815,75},45,-1, LIGHTGRAY);

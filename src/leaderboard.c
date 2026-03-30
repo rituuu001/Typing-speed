@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "leaderboard.h"
+#include "../include/leaderboard.h"
 
 void saveScore(Score s)
 {
