@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include "leaderboard.h"
+#include "stats.h"
 #include "../include/leaderboard.h"
 
-void saveScore(Score s)
+void saveScore(GameStats s)
 {
     FILE *fp = fopen("scores.txt","a");
 
@@ -21,7 +23,7 @@ void saveScore(Score s)
     fclose(fp);
 }
 
-int readScores(Score scores[])
+int readScores(GameStats scores[])
 {
     FILE *fp = fopen("scores.txt","r");
     int count = 0;
@@ -43,7 +45,7 @@ int readScores(Score scores[])
     return count;
 }
 
-void sortScoresByWPM(Score scores[], int count)
+void sortScoresByWPM(GameStats scores[], int count)
 {
     int i,j;
     Score temp;
@@ -62,7 +64,7 @@ void sortScoresByWPM(Score scores[], int count)
     }
 }
 
-void displayScores(Score scores[], int count)
+void displayScores(GameStats scores[], int count)
 {
     int i;
 
