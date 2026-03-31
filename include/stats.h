@@ -10,8 +10,7 @@ typedef struct{
     float timeTaken;       
     float wpm;             
     float accuracy;        
-    char smode[16];
-    float timemode;
+    char mode[16];
     char name[50];
 } GameStats;
 
