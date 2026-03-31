@@ -1,19 +1,11 @@
 #ifndef LEADERBOARD_H
 #define LEADERBOARD_H
 
-typedef struct {
-    int correctChars;
-    int incorrectChars;
-    int totalChars;
-    float timeTaken;
-    float wpm;
-    float accuracy;
-    char mode[16];
-} GameStats;
+#include "stats.h"
 
-void saveScore(Score s);
-int readScores(Score scores[]);
-void sortScoresByWPM(Score scores[], int count);
-void displayScores(Score scores[], int count);
+void saveScore(GameStats s);
+int readScores(GameStats scores[]);
+void sortScoresByWPM(GameStats scores[], int count);
+void displayScores(GameStats scores[], int count);
 
 #endif
