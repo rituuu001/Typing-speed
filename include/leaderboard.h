@@ -2,11 +2,14 @@
 #define LEADERBOARD_H
 
 typedef struct {
-    char name[50];
-    int wpm;
+    int correctChars;
+    int incorrectChars;
+    int totalChars;
+    float timeTaken;
+    float wpm;
     float accuracy;
-    char mode[20];
-} Score;
+    char mode[16];
+} GameStats;
 
 void saveScore(Score s);
 int readScores(Score scores[]);
