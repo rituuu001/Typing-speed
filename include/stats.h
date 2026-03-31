@@ -11,7 +11,8 @@ typedef struct{
     float wpm;             
     float accuracy;        
     char smode[16];
-    float timemode;         
+    float timemode;
+    char name[50];
 } GameStats;
 
 float calculateWpm(int correctChars, float timeTaken);
