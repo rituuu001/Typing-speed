@@ -2,7 +2,7 @@
 #include <string.h>
 #include "leaderboard.h"
 #include "stats.h"
-#include "../include/leaderboard.h"
+
 
 void saveScore(GameStats s)
 {
@@ -14,7 +14,7 @@ void saveScore(GameStats s)
         return;
     }
 
-    fprintf(fp,"%s %d %.2f %s\n",
+    fprintf(fp,"%s %f %.2f %s\n",
             s.name,
             s.wpm,
             s.accuracy,
@@ -31,7 +31,7 @@ int readScores(GameStats scores[])
     if(fp == NULL)
         return 0;
 
-    while(fscanf(fp,"%s %d %f %s",
+    while(fscanf(fp,"%s %f %f %s",
           scores[count].name,
           &scores[count].wpm,
           &scores[count].accuracy,
@@ -48,7 +48,7 @@ int readScores(GameStats scores[])
 void sortScoresByWPM(GameStats scores[], int count)
 {
     int i,j;
-    Score temp;
+    GameStats temp;
 
     for(i=0;i<count-1;i++)
     {
@@ -72,7 +72,7 @@ void displayScores(GameStats scores[], int count)
 
     for(i=0;i<count;i++)
     {
-        printf("%s  WPM:%d  Accuracy:%.2f  Mode:%s\n",
+        printf("%s  WPM:%f  Accuracy:%.2f  Mode:%s\n",
         scores[i].name,
         scores[i].wpm,
         scores[i].accuracy,
