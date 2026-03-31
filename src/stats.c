@@ -49,43 +49,44 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
     DrawTextEx(font2, "CHOOSE YOUR MODE", (Vector2){585, 210}, 35, 2, LIGHT);
 
     // Sentence button
-    Rectangle sentenceBtn = {350, 350, 350, 280};
-    DrawRectangleRounded(sentenceBtn, 0.2f, 64, COLOR2);
+    Rectangle sentenceBtn = {350, 350, 350, 260};
     if(*mode == MODE_SENTENCE)
-    {DrawRectangleRoundedLinesEx(sentenceBtn, 0.2f, 64, 2.0f, COLOR1);}
-    DrawTextEx(font3, "''", (Vector2){480, 378}, 80, 2, WHITE);
-    DrawTextEx(font1, "Sentence", (Vector2){450, 468}, 38, 2, WHITE);
-    DrawTextEx(font3, "short bursts | raw speed",(Vector2){370, 528}, 25, 2,LIGHT);
+    {DrawRectangleRounded(sentenceBtn, 0.2f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(sentenceBtn, 0.2f, 64, 2.0f, COLOR1);}
+    DrawRectangleRoundedLinesEx(sentenceBtn, 0.2f, 64, 0.3f, COLOR1);
+    DrawTextEx(font1, "SENTENCE ", (Vector2){445, 440}, 40, 2, WHITE);
+    DrawTextEx(font2, "short bursts | raw speed",(Vector2){370, 528}, 25, 2,GRAY);
 
     // Paragraph button
-    Rectangle paragraphBtn = {800, 350, 350,280};
-    DrawRectangleRounded(paragraphBtn, 0.2f, 64, COLOR2);
+    Rectangle paragraphBtn = {800, 350, 350,260};
     if(*mode == MODE_PARAGRAPH)
-    {DrawRectangleRoundedLinesEx(paragraphBtn, 0.2f, 64, 2.0f, COLOR1);}
-    DrawTextEx(font3, "&", (Vector2){950, 378}, 80, 2, WHITE);
-    DrawTextEx(font1, "Paragraph", (Vector2){890, 468}, 38, 2, WHITE);
-     DrawTextEx(font3, "full passage | endurance",(Vector2){820, 528}, 25, 2,LIGHT);
+    {DrawRectangleRounded(paragraphBtn, 0.2f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(paragraphBtn, 0.2f, 64, 2.0f, COLOR1);}
+    DrawRectangleRoundedLinesEx(paragraphBtn, 0.2f, 64, 0.3f, COLOR1);
+    DrawTextEx(font1, "PARAGRAPH", (Vector2){880, 440}, 40, 2, WHITE);
+     DrawTextEx(font2, "full passage | endurance",(Vector2){820, 528}, 25, 2,GRAY);
     //time buttons
-    Rectangle timebtn1={500,700,100,60};
-    if (*timemode==15.0)
+    Rectangle timebtn1={500,690,100,50};
+    if (*timemode==10.0)
     DrawRectangleRounded(timebtn1, 0.9f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(timebtn1, 0.9f, 64, 2.0f, COLOR1);
-    DrawTextEx(font1, "15s", (Vector2){525, 715}, 38, 2, WHITE);
-    Rectangle timebtn2={700,700,100,60};
+    DrawRectangleRoundedLinesEx(timebtn1, 0.9f, 64, 0.3f, COLOR1);
+    DrawTextEx(font1, "10s", (Vector2){525, 700}, 38, 2, COLOR1);
+    Rectangle timebtn2={700,690,100,50};
+    if (*timemode==20.0)
+    DrawRectangleRounded(timebtn2, 0.9f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(timebtn2, 0.9f, 64, 0.3f, COLOR1);
+    DrawTextEx(font1, "20s", (Vector2){725, 700}, 38, 2, COLOR1);
+    Rectangle timebtn3={900,690,100,50};
     if (*timemode==30.0)
-    DrawRectangleRounded(timebtn2, 0.9f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(timebtn2, 0.9f, 64, 2.0f, COLOR1);
-    DrawTextEx(font1, "30s", (Vector2){725, 715}, 38, 2, WHITE);
-    Rectangle timebtn3={900,700,100,60};
-    if (*timemode==40.0)
-    DrawRectangleRounded(timebtn2, 0.9f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(timebtn3, 0.9f, 64, 2.0f, COLOR1);
-    DrawTextEx(font1, "40s", (Vector2){925, 715}, 38, 2, WHITE);
-    DrawTextEx(font3, "TIME--", (Vector2){275, 715}, 38, 1, LIGHT);
+    DrawRectangleRounded(timebtn3, 0.9f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(timebtn3, 0.9f, 64, 0.3f, COLOR1);
+    DrawTextEx(font1, "30s", (Vector2){925, 700}, 38, 2, COLOR1);
+    DrawTextEx(font3, "TIME", (Vector2){300, 695}, 38, 1, LIGHT);
     //start button
-    Rectangle startbtn={650,800,200,60};
+    Rectangle startbtn={650,810,200,60};
     DrawRectangleRounded(startbtn, 0.9f, 64, COLOR2);
-    DrawTextEx(font1, "START", (Vector2){700, 810}, 38, 2, WHITE);
+    DrawRectangleRoundedLinesEx(startbtn, 0.9f, 64, 2.0f, COLOR1);
+    DrawTextEx(font1, "START", (Vector2){700, 820}, 38, 2, WHITE);
     // Check clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
@@ -100,11 +101,11 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
             
         }
          if (CheckCollisionPointRec(mouse, timebtn1)) 
-            *timemode = 15.0;
+            *timemode = 10.0;
          if (CheckCollisionPointRec(mouse, timebtn2)) 
-            *timemode = 30.0;
+            *timemode = 20.0;
         if (CheckCollisionPointRec(mouse, timebtn3)) 
-            *timemode = 40.0;
+            *timemode = 30.0;
          if (CheckCollisionPointRec(mouse, startbtn)) 
             *currentScreen=SCREEN_TYPING;
         }
