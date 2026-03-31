@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "leaderboard.h"
+#include "stats.h"
 
 void saveScore(GameStats s)
 {
