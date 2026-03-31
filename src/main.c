@@ -14,7 +14,7 @@ void resetGame(char *input, int *inputLength, float *timer, GameStats *stats,flo
 {
     input[0]     = '\0';
     *inputLength = 0;
-    timer=timemode;
+    *timer=*timemode;
     resetStats(stats);  
 }
 
@@ -32,9 +32,9 @@ int main()
     char target[] = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
     int inputLength=0;
     int framecount=0;
-    float timer=30.0f;
-    float timemode=30.0f;
-    int mode = MODE_SENTENCE;
+    float timer=0.0f;
+    float timemode=0.0f;
+    int mode = -1;
     GameStats stats={0};
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
     GAMESCREEN PREVIOUS_SCREEN=SCREEN_LOAD;
