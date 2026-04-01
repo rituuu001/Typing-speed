@@ -6,16 +6,18 @@
 #include"../include/typing.h"
 #include"../include/common.h"
 #include "../include/stats.h"
+#include "../include/textloader.h"
 Rectangle WPMBOX={800,60,150,75};
 Rectangle ACCBOX={1000,60,150,75};
 Rectangle TIMERBOX={1200,60,150,75};
 Rectangle logoBox = {534, 200, 112, 90};   
-void resetGame(char *input, int *inputLength, float *timer, GameStats *stats,float *timemode)
+void resetGame(char *input, int *inputLength, float *timer, GameStats *stats,float *timemode,int mode, char *target)
 {
     input[0]     = '\0';
     *inputLength = 0;
     *timer=*timemode;
     resetStats(stats);  
+     loadRandomText(mode, target);
 }
 
 int main()
@@ -28,13 +30,13 @@ int main()
      Font font4=LoadFontEx("../assets/RobotoMono-ExtraLight.ttf",180, 0, 0);
     Texture2D logo= LoadTexture("../assets/logo.png");
     
-    char input[200] = "";
-    char target[] = "the quick brown fox jumps over the lazy dog and the cat sat on the mat while the dog ran across the field and jumped over the fence into the garden";
+    char input[MAX_TEXT_LEN] = "";
     int inputLength=0;
     int framecount=0;
     float timer=0.0f;
     float timemode=0.0f;
-    int mode = -1;
+    int mode ;
+    char target[MAX_TEXT_LEN] ="";
     GameStats stats={0};
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
     GAMESCREEN PREVIOUS_SCREEN=SCREEN_LOAD;
@@ -80,14 +82,16 @@ int main()
             case SCREEN_MODE:
             {
               if (screenChanged)                              // reset once on entry
-                    resetGame(input, &inputLength, &timer, &stats,&timemode);
+                    resetGame(input, &inputLength, &timer, &stats,&timemode,mode,target);
             DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2,font3, &mode,&timemode);
             
             break;
             }
             case SCREEN_TYPING:
             {if (screenChanged)                              // reset once on entry
-                    resetGame(input, &inputLength, &timer, &stats,&timemode);
+                    {resetGame(input, &inputLength, &timer, &stats,&timemode,mode,target);
+                        }
+           
             DrawTextureEx(logo, (Vector2){20, 22}, 0.0f, 0.1f, WHITE);
             DrawTextEx(font2, "typingSpeed", (Vector2){65, 16}, 50, -2,LIGHTGRAY);
             DrawRectangleRoundedLinesEx(WPMBOX, 0.5f, 64,2.0f,COLOR1);
