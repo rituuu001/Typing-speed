@@ -186,7 +186,7 @@ void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
         Vector2 mouse = GetMousePosition();
 
         if (CheckCollisionPointRec(mouse, backBtn)) {
-            *currentScreen = SCREEN_MODE;
+            *currentScreen = SCREEN_GAMEOVER;
         }
     }
 }

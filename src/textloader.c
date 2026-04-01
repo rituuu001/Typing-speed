@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
  
-// ── fallbacks used when the file is missing or empty ─────────────
-static const char *FALLBACK_SENTENCE =
+// fallbacks used when the file is missing or empty
+const char *FALLBACK_SENTENCE =
     "the quick brown fox jumps over the lazy dog";
-static const char *FALLBACK_PARAGRAPH =
+const char *FALLBACK_PARAGRAPH =
     "the quick brown fox jumps over the lazy dog and the cat sat "
     "on the mat while the dog ran across the field and jumped over "
     "the fence into the garden";
@@ -29,10 +29,8 @@ int loadRandomText(int mode, char *dest)
         strncpy(dest, fallback, MAX_TEXT_LEN - 1);
         dest[MAX_TEXT_LEN - 1] = '\0';
         return 0;
-    }
- 
-    
-    static char entries[MAX_ENTRIES][MAX_TEXT_LEN];
+    }  
+    char entries[MAX_ENTRIES][MAX_TEXT_LEN];
     int count = 0;
     char line[MAX_TEXT_LEN];
  
@@ -50,7 +48,7 @@ int loadRandomText(int mode, char *dest)
         count++;
     }
     fclose(fp);
-    // ── pick a random entry ───────────────────────────────────────
+    // ── pick a random entry 
     int index = rand() % count;
     strncpy(dest, entries[index], MAX_TEXT_LEN - 1);
     dest[MAX_TEXT_LEN - 1] = '\0';

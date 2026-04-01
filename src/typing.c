@@ -44,7 +44,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     int key = GetCharPressed();
     //stores the input characters in the array input[]
     while (key >= 32 && key <= 126) {
-        if (*inputLength < (int)strlen(target)) {
+        if (*inputLength < strlen(target)) {
             input[*inputLength] = (char)key;
             updateStats(s, target[*inputLength], input[*inputLength]);
             (*inputLength)++;
@@ -53,8 +53,8 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
         key = GetCharPressed();
     }
     //backspace handling to delete characters or the entire word
-   if ((IsKeyPressed(KEY_LEFT_CONTROL)||IsKeyPressed(KEY_RIGHT_CONTROL)) && IsKeyPressed(KEY_BACKSPACE))
-   {while(*inputLength>0 && input[(*inputLength)-1]==' ')
+   if ((IsKeyDown(KEY_LEFT_CONTROL)||IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyPressed(KEY_BACKSPACE))
+   {while(*inputLength>0 && target[(*inputLength)-1]==' ')
    {
     (*inputLength)--;
      if (input[*inputLength]==target[*inputLength])
@@ -64,7 +64,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     input[*inputLength]='\0';
     s->totalChars--; 
    }
-   while(*inputLength>0 && input[(*inputLength)-1]!=' ')
+   while(*inputLength>0 && target[(*inputLength)-1]!=' ')
    {
     (*inputLength)--;
      if (input[*inputLength]==target[*inputLength])

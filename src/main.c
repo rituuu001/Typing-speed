@@ -37,7 +37,7 @@ int main()
     float timemode=0.0f;
     int mode ;
     char target[MAX_TEXT_LEN] ="";
-    GameStats stats={0};
+    GameStats stats;
     GAMESCREEN CURRENT_SCREEN=SCREEN_LOAD;
     GAMESCREEN PREVIOUS_SCREEN=SCREEN_LOAD;
      SetTargetFPS(60);
@@ -81,10 +81,7 @@ int main()
 
             case SCREEN_MODE:
             {
-              if (screenChanged)                              // reset once on entry
-                    resetGame(input, &inputLength, &timer, &stats,&timemode,mode,target);
             DrawModeSelectScreen(&CURRENT_SCREEN, font1, font2,font3, &mode,&timemode);
-            
             break;
             }
             case SCREEN_TYPING:
@@ -114,11 +111,9 @@ int main()
 
             if (isgameover(&inputLength, target, timer)) 
             {
-                float timetaken = 30.0f - timer;
-                stats.wpm = calculateWpm(stats.correctChars, timetaken);
-                stats.accuracy = calculateAccuracy(stats.correctChars, stats.totalChars);
-                CURRENT_SCREEN = SCREEN_GAMEOVER;
-                
+                stats.wpm = wpm;
+                stats.accuracy = acc;
+                CURRENT_SCREEN = SCREEN_GAMEOVER;      
             }
             }
             break;
