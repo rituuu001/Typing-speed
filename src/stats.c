@@ -139,7 +139,7 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
     Rectangle lbBtn = {1000, 650, 280, 70};
     DrawRectangleRounded(lbBtn, 0.5f, 64, COLOR2);
     DrawRectangleRoundedLinesEx(lbBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "LEADERBOARD", (Vector2){1015, 670}, 35, 2, COLOR1);
+    DrawTextEx(font2, "LEADERBOARD", (Vector2){1040, 670}, 35, 2, COLOR1);
 
     // Check clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -161,16 +161,16 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
 void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
     
     // Title
-    DrawTextEx(font1, "LEADERBOARD", (Vector2){380, 100}, 80, -2, COLOR1);
-    DrawRectangle(380, 190, 680, 2, COLOR1);
+    DrawTextEx(font1, "LEADERBOARD", (Vector2){500, 100}, 80, -2, COLOR1);
+    DrawRectangle(350, 190, 800, 2, COLOR1);
 
     // Headers
-    DrawTextEx(font2, "RANK", (Vector2){400, 220}, 35, 2, LIGHT);
-    DrawTextEx(font2, "NAME", (Vector2){580, 220}, 35, 2, LIGHT);
-    DrawTextEx(font2, "WPM", (Vector2){820, 220}, 35, 2, LIGHT);
-    DrawTextEx(font2, "ACCURACY", (Vector2){980, 220}, 35, 2, LIGHT);
+    DrawTextEx(font2, "RANK", (Vector2){400, 220}, 35, 2, COLOR1);
+    DrawTextEx(font2, "NAME", (Vector2){580, 220}, 35, 2, COLOR1);
+    DrawTextEx(font2, "WPM", (Vector2){820, 220}, 35, 2, COLOR1);
+    DrawTextEx(font2, "ACCURACY", (Vector2){980, 220}, 35, 2, COLOR1);
 
-    DrawRectangle(380, 260, 680, 2, LIGHT);
+    DrawRectangle(350, 260, 800, 2, LIGHT);
 
     // Placeholder text until Person 4 is ready
     DrawTextEx(font2, "No scores yet!", (Vector2){550, 400}, 40, 2, LIGHT);
