@@ -15,7 +15,8 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     Vector2 charSize= MeasureTextEx(font,"a",60,3);
     Color colour;
       for(int i=0;target[i]!='\0';i++)
-    { char letter[2] = {target[i], '\0'};
+    { 
+      char letter[2] = {target[i], '\0'};
       if (i<(*inputLength))
       {
         colour=(input[i]==target[i])?WHITE:WRONG_COLOR;
