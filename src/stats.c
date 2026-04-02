@@ -10,7 +10,7 @@ float calculateWpm(int correctChars, float timeTaken)
     return 0;
     }
     float minutes = timeTaken/60.0f;
-    float words = correctChars/5.0f;
+    float words = correctCharsc;/5.0f;
     return words/minutes;
 }
 

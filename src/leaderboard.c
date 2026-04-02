@@ -14,11 +14,11 @@ void saveScore(GameStats s)
         return;
     }
 
-    fprintf(fp,"%s %f %.2f %s\n",
+    fprintf(fp,"%s %f %.2f\n",
             s.name,
             s.wpm,
-            s.accuracy,
-            s.mode);
+            s.accuracy
+            );
 
     fclose(fp);
 }
@@ -31,14 +31,13 @@ int readScores(GameStats scores[])
     if(fp == NULL)
         return 0;
 
-    while(fscanf(fp,"%s %f %f %s",
-          scores[count].name,
-          &scores[count].wpm,
-          &scores[count].accuracy,
-          scores[count].mode) != EOF)
-    {
-        count++;
-    }
+    while(fscanf(fp,"%s %f %f",
+      scores[count].name,
+      &scores[count].wpm,
+      &scores[count].accuracy) == 3)
+{
+    count++;
+}
 
     fclose(fp);
 
