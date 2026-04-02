@@ -1,4 +1,6 @@
 #include "../include/stats.h"
+#include "../include/leaderboard.h"
+#include <string.h>
 
 
 float calculateWpm(int correctChars, float timeTaken)
@@ -114,6 +116,10 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
 
 void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameStats *stats) {
     
+    static char playerName[20] = "";
+    static int nameLength = 0;
+    static bool showNameInput = false;
+
     // Title
     DrawTextEx(font1, "GAME OVER", (Vector2){480, 150}, 100, -2, COLOR1);
 
@@ -141,25 +147,95 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
     DrawRectangleRoundedLinesEx(lbBtn, 0.5f, 64, 2.0f, COLOR1);
     DrawTextEx(font2, "LEADERBOARD", (Vector2){1040, 670}, 35, 2, COLOR1);
 
-    // Check clicks
+    // button clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
-
-        if (CheckCollisionPointRec(mouse, retryBtn)) {
-            
+        if (CheckCollisionPointRec(mouse, retryBtn))
             *currentScreen = SCREEN_TYPING;
-        }
-        if (CheckCollisionPointRec(mouse, menuBtn)) {
+        if (CheckCollisionPointRec(mouse, menuBtn))
             *currentScreen = SCREEN_MODE;
+        if (CheckCollisionPointRec(mouse, lbBtn))
+            showNameInput = true;
+    }
+
+    // NAME INPUT POPUP
+    if (showNameInput) {
+
+        // dark overlay
+        DrawRectangle(0, 0, 1440, 900, (Color){0, 0, 0, 180});
+
+        // popup box
+        Rectangle popup = {420, 280, 600, 340};
+        DrawRectangleRounded(popup, 0.2f, 64, BG);
+        DrawRectangleRoundedLinesEx(popup, 0.2f, 64, 2.0f, COLOR1);
+
+        // popup title
+        DrawTextEx(font2, "ENTER YOUR NAME", (Vector2){510, 310}, 35, 2, LIGHTGRAY);
+        DrawTextEx(font2, "score will be saved to leaderboard", (Vector2){455, 355}, 25, 2, LIGHT);
+
+        // name input box
+        Rectangle nameBox = {470, 400, 500, 55};
+        DrawRectangleRounded(nameBox, 0.3f, 8, COLOR2);
+        DrawRectangleRoundedLinesEx(nameBox, 0.3f, 8, 2.0f, COLOR1);
+        DrawTextEx(font2, playerName, (Vector2){485, 413}, 30, 2, LIGHTGRAY);
+
+        // blinking cursor
+        if ((int)(GetTime() * 2) % 2 == 0)
+            DrawTextEx(font2, "|", (Vector2){485 + MeasureTextEx(font2, playerName, 30, 2).x, 413}, 30, 2, COLOR1);
+
+        // cancel button
+        Rectangle cancelBtn = {470, 490, 220, 60};
+        DrawRectangleRounded(cancelBtn, 0.5f, 64, (Color){50, 50, 50, 255});
+        DrawRectangleRoundedLinesEx(cancelBtn, 0.5f, 64, 1.0f, COLOR1);
+        DrawTextEx(font2, "CANCEL", (Vector2){520, 507}, 30, 2, LIGHTGRAY);
+
+        // submit button
+        Rectangle submitBtn = {750, 490, 220, 60};
+        DrawRectangleRounded(submitBtn, 0.5f, 64, COLOR2);
+        DrawRectangleRoundedLinesEx(submitBtn, 0.5f, 64, 2.0f, COLOR1);
+        DrawTextEx(font2, "SUBMIT", (Vector2){800, 507}, 30, 2, COLOR1);
+
+        // capture typing
+        int letter = GetCharPressed();
+        if (letter >= 32 && nameLength < 19) {
+            playerName[nameLength] = (char)letter;
+            nameLength++;
+            playerName[nameLength] = '\0';
         }
-        if (CheckCollisionPointRec(mouse, lbBtn)) {
-            *currentScreen = SCREEN_LEADERBOARD;
+
+        // backspace
+        if (IsKeyPressed(KEY_BACKSPACE) && nameLength > 0) {
+            nameLength--;
+            playerName[nameLength] = '\0';
+        }
+
+        // popup button clicks
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            Vector2 mouse = GetMousePosition();
+            if (CheckCollisionPointRec(mouse, cancelBtn)) {
+                showNameInput = false;
+                playerName[0] = '\0';
+                nameLength = 0;
+            }
+            if (CheckCollisionPointRec(mouse, submitBtn) && nameLength > 0) {
+                strcpy(stats->name, playerName);
+                saveScore(*stats);
+                showNameInput = false;
+                playerName[0] = '\0';
+                nameLength = 0;
+                *currentScreen = SCREEN_LEADERBOARD;
+            }
         }
     }
 }
 
 void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
-    
+
+    // load and sort scores
+    GameStats scores[100];
+    int count = readScores(scores);
+    sortScoresByWPM(scores, count);
+
     // Title
     DrawTextEx(font1, "LEADERBOARD", (Vector2){500, 100}, 80, -2, COLOR1);
     DrawRectangle(350, 190, 800, 2, COLOR1);
@@ -169,11 +245,20 @@ void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
     DrawTextEx(font2, "NAME", (Vector2){580, 220}, 35, 2, COLOR1);
     DrawTextEx(font2, "WPM", (Vector2){820, 220}, 35, 2, COLOR1);
     DrawTextEx(font2, "ACCURACY", (Vector2){980, 220}, 35, 2, COLOR1);
-
     DrawRectangle(350, 260, 800, 2, LIGHT);
 
-    // Placeholder text until Person 4 is ready
-    DrawTextEx(font2, "No scores yet!", (Vector2){550, 400}, 40, 2, LIGHT);
+    // display scores
+    if (count == 0) {
+        DrawTextEx(font2, "No scores yet!", (Vector2){550, 400}, 40, 2, LIGHT);
+    } else {
+        for (int i = 0; i < count && i < 8; i++) {
+            int y = 280 + i * 55;
+            DrawTextEx(font2, TextFormat("%d", i + 1), (Vector2){420, y}, 30, 2, LIGHTGRAY);
+            DrawTextEx(font2, scores[i].name, (Vector2){580, y}, 30, 2, LIGHTGRAY);
+            DrawTextEx(font2, TextFormat("%d", (int)scores[i].wpm), (Vector2){820, y}, 30, 2, LIGHTGRAY);
+            DrawTextEx(font2, TextFormat("%.1f%%", scores[i].accuracy), (Vector2){980, y}, 30, 2, LIGHTGRAY);
+        }
+    }
 
     // Back button
     Rectangle backBtn = {620, 750, 200, 70};
@@ -181,12 +266,9 @@ void DrawLeaderboardScreen(GAMESCREEN *currentScreen, Font font1, Font font2) {
     DrawRectangleRoundedLinesEx(backBtn, 0.5f, 64, 2.0f, COLOR1);
     DrawTextEx(font2, "BACK", (Vector2){675, 768}, 35, 2, COLOR1);
 
-    // Check click
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
-
-        if (CheckCollisionPointRec(mouse, backBtn)) {
+        if (CheckCollisionPointRec(mouse, backBtn))
             *currentScreen = SCREEN_GAMEOVER;
-        }
     }
 }
