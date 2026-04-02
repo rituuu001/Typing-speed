@@ -3,10 +3,10 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include"../include/typing.h"
-#include"../include/common.h"
-#include "../include/stats.h"
-#include "../include/textloader.h"
+#include"typing.h"
+#include"common.h"
+#include "stats.h"
+#include "textloader.h"
 Rectangle WPMBOX={800,60,150,75};
 Rectangle ACCBOX={1000,60,150,75};
 Rectangle TIMERBOX={1200,60,150,75};
@@ -24,7 +24,7 @@ int main()
  { 
     srand(time(NULL));
     InitWindow(1440,900,  "TYPING GAME");
-    Font font1=LoadFontEx("../assets/Cinzel-Bold.ttf",180, 0, 0);
+     Font font1=LoadFontEx("../assets/Cinzel-Bold.ttf",180, 0, 0);
     Font font2=LoadFontEx("../assets/RobotoMono-Regular.ttf",180, 0, 0);
     Font font3=LoadFontEx("../assets/RobotoMono-Bold.ttf",180, 0, 0);
      Font font4=LoadFontEx("../assets/RobotoMono-ExtraLight.ttf",180, 0, 0);

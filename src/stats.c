@@ -1,8 +1,7 @@
 #include "../include/stats.h"
 #include "../include/leaderboard.h"
 #include <string.h>
-
-
+//calculates the wpm
 float calculateWpm(int correctChars, float timeTaken)
 {
     if (timeTaken <=0 )
@@ -13,7 +12,7 @@ float calculateWpm(int correctChars, float timeTaken)
     float words = correctChars/5.0f;
     return words/minutes;
 }
-
+// calculates the accuracy
 float calculateAccuracy(int correctChars, int totalChars)
 {
     if (totalChars <= 0)
@@ -22,6 +21,7 @@ float calculateAccuracy(int correctChars, int totalChars)
     }
     return ((float)correctChars/(float)totalChars)*100.0f;
 }
+//updates the status after every character typed
 void updateStats(GameStats *s, char expected, char typed) {
     s->totalChars++;
     if (typed == expected)
@@ -29,7 +29,7 @@ void updateStats(GameStats *s, char expected, char typed) {
     else
         s->incorrectChars++;
 }
-
+// resets all the stats when the player enters the mode select screen
 void resetStats(GameStats *s) {
     s->correctChars   = 0;
     s->incorrectChars = 0;
@@ -47,7 +47,7 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
      DrawRectangleRounded(logoBox, 0.3f, 8, COLOR1);
     DrawTextEx(font3, "ts", (Vector2){585, 103}, 45, 2, BG);
 
-    // ── heading ─
+    // heading 
     DrawTextEx(font2, "CHOOSE YOUR MODE", (Vector2){585, 210}, 35, 2, LIGHT);
 
     // Sentence button
@@ -93,15 +93,10 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mouse = GetMousePosition();
 
-        if (CheckCollisionPointRec(mouse, sentenceBtn)) {
-            *mode = MODE_SENTENCE;
-            
-            
-        }
-        if (CheckCollisionPointRec(mouse, paragraphBtn)) {
+        if (CheckCollisionPointRec(mouse, sentenceBtn)) 
+            *mode = MODE_SENTENCE;    
+        if (CheckCollisionPointRec(mouse, paragraphBtn)) 
             *mode = MODE_PARAGRAPH;
-            
-        }
          if (CheckCollisionPointRec(mouse, timebtn1)) 
             *timemode = 10.0;
          if (CheckCollisionPointRec(mouse, timebtn2)) 
@@ -112,40 +107,34 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
             *currentScreen=SCREEN_TYPING;
         }
     }
-
-
-void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameStats *stats) {
-    
+void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2,GameStats *stats) {
     static char playerName[20] = "";
     static int nameLength = 0;
     static bool showNameInput = false;
-
     // Title
     DrawTextEx(font1, "GAME OVER", (Vector2){480, 150}, 100, -2, COLOR1);
-
     // Stats display
     DrawTextEx(font2, TextFormat("WPM: %d", (int)stats->wpm), (Vector2){560, 320}, 50, 2, LIGHTGRAY);
     DrawTextEx(font2, TextFormat("ACCURACY: %.1f%%", stats->accuracy), (Vector2){560, 390}, 50, 2, LIGHTGRAY);
     DrawTextEx(font2, TextFormat("CORRECT: %d", stats->correctChars), (Vector2){560, 460}, 50, 2, LIGHTGRAY);
     DrawTextEx(font2, TextFormat("INCORRECT: %d", stats->incorrectChars), (Vector2){560, 530}, 50, 2, LIGHTGRAY);
-
     // Retry button
-    Rectangle retryBtn = {400, 650, 200, 70};
-    DrawRectangleRounded(retryBtn, 0.5f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(retryBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "RETRY", (Vector2){450, 670}, 35, 2, COLOR1);
+    Rectangle retryBtn = {355, 650, 190, 70};
+    DrawRectangleRounded(retryBtn, 0.8f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(retryBtn, 0.8f, 64, 2.0f, COLOR1);
+    DrawTextEx(font2, "RETRY", (Vector2){410, 670}, 35, 2, COLOR1);
 
     // Menu button
-    Rectangle menuBtn = {700, 650, 200, 70};
-    DrawRectangleRounded(menuBtn, 0.5f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(menuBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "MENU", (Vector2){755, 670}, 35, 2, COLOR1);
+    Rectangle menuBtn = {640, 650, 180, 70};
+    DrawRectangleRounded(menuBtn, 0.8f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(menuBtn, 0.8f, 64, 2.0f, COLOR1);
+    DrawTextEx(font2, "MENU", (Vector2){695, 670}, 35, 2, COLOR1);
 
     // Leaderboard button
-    Rectangle lbBtn = {1000, 650, 280, 70};
-    DrawRectangleRounded(lbBtn, 0.5f, 64, COLOR2);
-    DrawRectangleRoundedLinesEx(lbBtn, 0.5f, 64, 2.0f, COLOR1);
-    DrawTextEx(font2, "LEADERBOARD", (Vector2){1040, 670}, 35, 2, COLOR1);
+    Rectangle lbBtn = {910, 650, 280, 70};
+    DrawRectangleRounded(lbBtn, 0.8f, 64, COLOR2);
+    DrawRectangleRoundedLinesEx(lbBtn, 0.8f, 64, 2.0f, COLOR1);
+    DrawTextEx(font2, "LEADERBOARD", (Vector2){955, 670}, 35, 2, COLOR1);
 
     // button clicks
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -170,7 +159,7 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
         DrawRectangleRoundedLinesEx(popup, 0.2f, 64, 2.0f, COLOR1);
 
         // popup title
-        DrawTextEx(font2, "ENTER YOUR NAME", (Vector2){510, 310}, 35, 2, LIGHTGRAY);
+        DrawTextEx(font1, "ENTER YOUR NAME", (Vector2){510, 310}, 35, 2, LIGHTGRAY);
         DrawTextEx(font2, "score will be saved to leaderboard", (Vector2){455, 355}, 25, 2, LIGHT);
 
         // name input box
@@ -184,16 +173,16 @@ void DrawGameOverScreen(GAMESCREEN *currentScreen, Font font1, Font font2, GameS
             DrawTextEx(font2, "|", (Vector2){485 + MeasureTextEx(font2, playerName, 30, 2).x, 413}, 30, 2, COLOR1);
 
         // cancel button
-        Rectangle cancelBtn = {470, 490, 220, 60};
-        DrawRectangleRounded(cancelBtn, 0.5f, 64, (Color){50, 50, 50, 255});
+        Rectangle cancelBtn = {470, 490, 200, 60};
+        DrawRectangleRounded(cancelBtn, 0.5f, 64, (Color){255, 50, 50, 40});
         DrawRectangleRoundedLinesEx(cancelBtn, 0.5f, 64, 1.0f, COLOR1);
-        DrawTextEx(font2, "CANCEL", (Vector2){520, 507}, 30, 2, LIGHTGRAY);
+        DrawTextEx(font1, "CANCEL", (Vector2){520, 507}, 30, 2, LIGHTGRAY);
 
         // submit button
-        Rectangle submitBtn = {750, 490, 220, 60};
+        Rectangle submitBtn = {760, 490, 200, 60};
         DrawRectangleRounded(submitBtn, 0.5f, 64, COLOR2);
         DrawRectangleRoundedLinesEx(submitBtn, 0.5f, 64, 2.0f, COLOR1);
-        DrawTextEx(font2, "SUBMIT", (Vector2){800, 507}, 30, 2, COLOR1);
+        DrawTextEx(font1, "SUBMIT", (Vector2){810, 507}, 30, 2, COLOR1);
 
         // capture typing
         int letter = GetCharPressed();

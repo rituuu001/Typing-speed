@@ -1,8 +1,8 @@
 
 #include <raylib.h>
-#include "../include/typing.h"
-#include"../include/common.h"
-#include "../include/stats.h"
+#include "typing.h"
+#include"common.h"
+#include "stats.h"
 #include <string.h>
 #include<stdio.h>
 
@@ -14,6 +14,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     float maxX=1380;
     Vector2 charSize= MeasureTextEx(font,"a",60,3);
     Color colour;
+    //determines the colour of the text to be displayed
       for(int i=0;target[i]!='\0';i++)
     { 
       char letter[2] = {target[i], '\0'};
@@ -28,11 +29,13 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
 
       }
       if (i==(*inputLength))
-      {
+      { //draws cursor
         DrawRectangle(x,y,5,charSize.y,COLOR1);
+
         DrawTextEx(font,letter,(Vector2){x,y},60,3,LIGHT);
       }
         x+=charSize.x;
+        //The text will be displayed in the next line when x is greater than max value
          if (x>maxX)
       {
         x=StartX;
@@ -53,7 +56,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
         }
         key = GetCharPressed();
     }
-    //backspace handling to delete characters or the entire word
+    //backspace +ctrl handling to delete the entire word
    if ((IsKeyDown(KEY_LEFT_CONTROL)||IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyPressed(KEY_BACKSPACE))
    {while(*inputLength>0 && target[(*inputLength)-1]==' ')
    {
@@ -75,6 +78,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     input[*inputLength]='\0';
     s->totalChars--;
    }}
+   //backspace handling to delete a character
    else if (IsKeyPressed(KEY_BACKSPACE) && (*inputLength)>0)
    {
     (*inputLength)--;
@@ -86,6 +90,7 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
     s->totalChars--;
    }
   }
+  // Game is over when all the characters are typed or if time ends
   int isgameover(int *inputLength,char * target,float timer)
   {
     if ((*inputLength>=(int)strlen(target))||timer<=0.0f)

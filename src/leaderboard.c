@@ -3,17 +3,15 @@
 #include "leaderboard.h"
 #include "stats.h"
 
-
+//save scores to the file "scores.txt"
 void saveScore(GameStats s)
 {
-    FILE *fp = fopen("scores.txt","a");
-
+    FILE *fp = fopen("../assets/scores.txt","a");
     if(fp == NULL)
     {
         printf("Error opening file\n");
         return;
     }
-
     fprintf(fp,"%s %f %.2f\n",
             s.name,
             s.wpm,
@@ -22,15 +20,13 @@ void saveScore(GameStats s)
 
     fclose(fp);
 }
-
+//read saved scores 
 int readScores(GameStats scores[])
 {
-    FILE *fp = fopen("scores.txt","r");
+    FILE *fp = fopen("../assets/scores.txt","r");
     int count = 0;
-
     if(fp == NULL)
         return 0;
-
     while(fscanf(fp,"%s %f %f",
       scores[count].name,
       &scores[count].wpm,
@@ -38,12 +34,10 @@ int readScores(GameStats scores[])
 {
     count++;
 }
-
     fclose(fp);
-
     return count;
 }
-
+//Sorts the name of users on the basis of wpm
 void sortScoresByWPM(GameStats scores[], int count)
 {
     int i,j;
@@ -60,21 +54,5 @@ void sortScoresByWPM(GameStats scores[], int count)
                 scores[j] = temp;
             }
         }
-    }
-}
-
-void displayScores(GameStats scores[], int count)
-{
-    int i;
-
-    printf("\nLeaderboard:\n");
-
-    for(i=0;i<count;i++)
-    {
-        printf("%s  WPM:%f  Accuracy:%.2f  Mode:%s\n",
-        scores[i].name,
-        scores[i].wpm,
-        scores[i].accuracy,
-        scores[i].mode);
     }
 }

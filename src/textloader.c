@@ -1,4 +1,4 @@
-#include "../include/textloader.h"
+#include "textloader.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,22 +33,14 @@ int loadRandomText(int mode, char *dest)
     char entries[MAX_ENTRIES][MAX_TEXT_LEN];
     int count = 0;
     char line[MAX_TEXT_LEN];
- 
-    while (fgets(line, sizeof(line), fp) != NULL && count < MAX_ENTRIES) {
- 
-        // strip trailing newline 
-        int len = (int)strlen(line);
-        while (len > 0 && (line[len-1] == '\n')) {
-            line[--len] = '\0';
-        }
-        
- 
+    //stores all the sentences and para into the array "entries"
+     while (fgets(line, sizeof(line), fp) != NULL && count < MAX_ENTRIES) {
         strncpy(entries[count], line, MAX_TEXT_LEN - 1);
         entries[count][MAX_TEXT_LEN - 1] = '\0';
         count++;
     }
     fclose(fp);
-    // ── pick a random entry 
+    // pick a random entry 
     int index = rand() % count;
     strncpy(dest, entries[index], MAX_TEXT_LEN - 1);
     dest[MAX_TEXT_LEN - 1] = '\0';
