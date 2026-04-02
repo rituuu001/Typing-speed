@@ -30,8 +30,8 @@ void drawTypingScreen(Font font,char *input,char *target,int *inputLength)
       }
       if (i==(*inputLength))
       { //draws cursor
+        if ((int)(GetTime() * 2) % 2 == 0)
         DrawRectangle(x,y,5,charSize.y,COLOR1);
-
         DrawTextEx(font,letter,(Vector2){x,y},60,3,LIGHT);
       }
         x+=charSize.x;
