@@ -88,7 +88,7 @@ WPM = (Characters Typed / 5) / (Time in Minutes)
 Accuracy is calculated as:
 ```
 Accuracy = (Correct Characters / Total Characters) × 100
-``
+```
 
 ## Acknowledgments
 
