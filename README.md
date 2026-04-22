@@ -5,7 +5,7 @@ A fast and interactive typing speed test game built with C and Raylib. Test your
 
 ## Demo
 
-![Typing Speed Test Demo](.assets/demo.gif)
+![Typing Speed Test Demo](assets/demo.gif)
 
 
 ## Features
