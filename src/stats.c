@@ -103,7 +103,7 @@ void DrawModeSelectScreen(GAMESCREEN *currentScreen, Font font1, Font font2,Font
             *timemode = 20.0;
         if (CheckCollisionPointRec(mouse, timebtn3)) 
             *timemode = 30.0;
-         if (CheckCollisionPointRec(mouse, startbtn)) 
+         if (CheckCollisionPointRec(mouse, startbtn) && *timemode>0) 
             *currentScreen=SCREEN_TYPING;
         }
     }
