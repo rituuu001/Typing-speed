@@ -37,17 +37,17 @@ cd Typing-speed
 ```
 
 2. **Compile the project**
-```bash
-# Basic compilation
-gcc src/*.c -o typing_speed -lraylib -lm
 
-# Or with include path specified
-gcc -I./include src/*.c -o typing_speed -lraylib -lm
+From the project root folder (`Typing-speed/`):
+
+```bash
+gcc src/*.c -I./include -I/path/to/raylib/include -L/path/to/raylib/lib -o typing_speed.exe -lraylib -lopengl32 -lgdi32 -lwinmm
 ```
 
 3. **Run the game**
 ```bash
-./typing_speed
+cd Typing-speed
+./typing_speed.exe
 ```
 
 ## How to Play
