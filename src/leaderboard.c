@@ -6,7 +6,7 @@
 //save scores to the file "scores.txt"
 void saveScore(GameStats s)
 {
-    FILE *fp = fopen("../assets/scores.txt","a");
+    FILE *fp = fopen("assets/scores.txt","a");
     if(fp == NULL)
     {
         printf("Error opening file\n");
@@ -23,7 +23,7 @@ void saveScore(GameStats s)
 //read saved scores 
 int readScores(GameStats scores[])
 {
-    FILE *fp = fopen("../assets/scores.txt","r");
+    FILE *fp = fopen("assets/scores.txt","r");
     int count = 0;
     if(fp == NULL)
         return 0;
