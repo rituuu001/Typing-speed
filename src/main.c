@@ -24,11 +24,11 @@ int main()
  { 
     srand(time(NULL));
     InitWindow(1440,900,  "TYPING GAME");
-     Font font1=LoadFontEx("../assets/Cinzel-Bold.ttf",180, 0, 0);
-    Font font2=LoadFontEx("../assets/RobotoMono-Regular.ttf",180, 0, 0);
-    Font font3=LoadFontEx("../assets/RobotoMono-Bold.ttf",180, 0, 0);
-     Font font4=LoadFontEx("../assets/RobotoMono-ExtraLight.ttf",180, 0, 0);
-    Texture2D logo= LoadTexture("../assets/logo.png");
+     Font font1=LoadFontEx("assets/Cinzel-Bold.ttf",180, 0, 0);
+    Font font2=LoadFontEx("assets/RobotoMono-Regular.ttf",180, 0, 0);
+    Font font3=LoadFontEx("assets/RobotoMono-Bold.ttf",180, 0, 0);
+     Font font4=LoadFontEx("assets/RobotoMono-ExtraLight.ttf",180, 0, 0);
+    Texture2D logo= LoadTexture("assets/logo.png");
     
     char input[MAX_TEXT_LEN] = "";
     int inputLength=0;
