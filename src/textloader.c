@@ -17,8 +17,8 @@ const char *FALLBACK_PARAGRAPH =
 int loadRandomText(int mode, char *dest)
 {
     const char *filepath = (mode == MODE_SENTENCE)
-                           ? "../assets/sentence.txt"
-                           : "../assets/paragraph.txt";
+                           ? "assets/sentence.txt"
+                           : "assets/paragraph.txt";
  
     const char *fallback  = (mode == MODE_SENTENCE)
                             ? FALLBACK_SENTENCE
